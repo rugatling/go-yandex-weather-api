@@ -4,12 +4,50 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/3crabs/go-requests/go-requests"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"time"
+	"bytes"
 )
+
+func GetRequest(ctx context.Context, url string, result any, f ...func(req *http.Request)) error {
+	return request(ctx, http.MethodGet, url, nil, result, f...)
+}
+
+
+func request(ctx context.Context, method string, url string, reqBody any, result any, f ...func(req *http.Request)) error {
+	b, err := json.Marshal(reqBody)
+	if err != nil {
+		return err
+	}
+	r := bytes.NewReader(b)
+	req, err := http.NewRequestWithContext(ctx, method, url, r)
+	for _, fun := range f {
+		fun(req)
+	}
+	if err != nil {
+		return err
+	}
+	req.Header.Set("accept", "application/json")
+	req.Header.Set("Content-Type", "application/json")
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	if res.StatusCode != 200 {
+		return fmt.Errorf("status code: %v", res.StatusCode)
+	}
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return err
+	}
+	if result == nil {
+		return nil
+	}
+	return json.Unmarshal(body, result)
+}
 
 // Weather Информация о погоде
 type Weather struct {
@@ -251,7 +289,7 @@ func (p Part) GetCondition() string {
 func GetWeather(ctx context.Context, yandexWeatherApiKey string, lat float32, lon float32) (*Weather, error) {
 	url := fmt.Sprintf("https://api.weather.yandex.ru/v2/informers?lat=%f&lon=%f&lang=ru_RU", lat, lon)
 	w := &Weather{}
-	err := requests.GetRequest(
+	err := GetRequest(
 		ctx,
 		url,
 		w,
