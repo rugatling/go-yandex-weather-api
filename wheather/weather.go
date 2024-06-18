@@ -262,7 +262,7 @@ type Part struct {
 	PressureMm int `json:"pressure_mm"` // Давление (в мм рт. ст.)
 	PressurePa int `json:"pressure_pa"` // Давление (в гектопаскалях)
 	Humidity   int `json:"humidity"`    // Влажность воздуха (в процентах)
-	PrecMm     int `json:"prec_mm"`     // Прогнозируемое количество осадков (в мм)
+	PrecMm     float64 `json:"prec_mm"`     // Прогнозируемое количество осадков (в мм)
 	PrecPeriod int `json:"prec_period"` // Прогнозируемый период осадков (в минутах)
 	PrecProb   int `json:"prec_prob"`   // Вероятность выпадения осадков
 }
