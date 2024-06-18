@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	weather "github.com/3crabs/go-yandex-weather-api/wheather"
+	weather "github.com/rugatling/go-yandex-weather-api/wheather"
 	"log"
 )
 
