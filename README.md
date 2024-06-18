@@ -1,2 +1,2 @@
 
-# Fork [go-yandex-weather-api](https://github.com/rugatling/go-yandex-weather-api) 
+# Fork [go-yandex-weather-api](https://github.com/3crabs/go-yandex-weather-api) 
