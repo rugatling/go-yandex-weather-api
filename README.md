@@ -1,7 +1,2 @@
-# go-yandex-weather-api
 
-Обертка над API Яндекс погоды
-
-## install
-
-    go get github.com/3crabs/go-yandex-weather-api
+# Fork [go-yandex-weather-api](https://github.com/rugatling/go-yandex-weather-api) 
